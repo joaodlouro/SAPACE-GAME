@@ -1,34 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Space</title>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Pixelify+Sans:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Tiny5&display=swap" rel="stylesheet">
+
+  
+  <title>space</title>
 </head>
 <body>
-  <div class="grid-container">
-    <nav class="menu" data-menu="suave">
-      <ul data-menu="list" id="menu">
-        <li>
-          <a>Space</a></li>
-          
-          <li> <a>About</a></li>
-
-        <li><a>Class</a></li>
-
-        <li><a>More</a></li>
-        
-      </ul>
-    </nav>
-
-    <div class="center">
+  <header>
+    <div class="interfaceSpace">
       
-      <h1 class="space">Space</h1>
-    
+      <div class="logo">
+       
+          <img src="image/logo.png" alt="logo">
+        
       </div>
-      </ul>
- 
-  </div>
+
+      <nav class="menu-desktop">
+        <ul>
+          <li><a href="#">Início</a></li>
+          <li><a href="#">Jogo</a></li>
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Projetos</a></li>
+        </ul>
+      </nav>
+
+      <div class="jogar">
+        <a href="#">
+          <button>JOGAR</button>
+        </a>
+      </div>
+
+    </div>
+  </header>
+  <main> <!--conteudo principal, apenas um por site!!--> 
+
+    <section class="topo-do-site">
+      <div class="interfaceSpace">
+        <div class="flex">
+          <div class="txt-topo-site">
+            <h1>JOGO DE NAVE<span>.</span></h1>
+            <p>Em um jogo de nave simples, o jogador controla uma nave espacial que se move horizontalmente na parte inferior da tela. O movimento é feito usando as teclas direcionais do teclado, normalmente as setas esquerda e direita ou as teclas A e D. A nave pode disparar projéteis para cima ao pressionar a tecla de espaço. O objetivo do jogo é destruir os aliens inimigos que aparecem na parte superior da tela e descem lentamente em direção à nave. Cada vez que um projétil acerta um alien, ele é destruído e o jogador ganha pontos. Se um alien atinge a nave ou chega à parte inferior da tela, o jogador perde uma vida. O jogo pode incluir fases com dificuldade crescente ou funcionar com uma contagem de pontos infinita. A jogabilidade é baseada em reflexos rápidos e precisão nos disparos.</p>
+            <div class="jogar">
+              <a href="">
+                <button>Entre em contato</button>
+              </a>
+            </div>
+          </div>
+    
+          <div class="img-topo-site">
+            <img src="image/nave.png" alt="Nave" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 </body>
 </html>
