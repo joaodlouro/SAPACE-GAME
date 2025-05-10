@@ -2,7 +2,7 @@ import { PATH_ENGINE_IMAGE,
     PATH_ENGINE_SPRITES, PATH_SPACESHIP_IMAGE } 
 from  "../utils/constants.js"; //sempre por extenção do arquivo 
 
-const INITIAL_FRAMES = 10;
+const INITIAL_FRAMES = 6;
 
 class Player{
 
@@ -28,6 +28,7 @@ this.engineImage = new Image();
 this.engineImageLoaded = false;
 this.engineImage.onload = () => {
   this.engineImageLoaded = true;
+
 };
 this.engineImage.src = PATH_ENGINE_IMAGE;
 
@@ -37,10 +38,13 @@ this.engineSpritesLoaded = false;
 this.engineSprites.onload = () => {
   this.engineSpritesLoaded = true;
 };
+
 this.engineSprites.src = PATH_ENGINE_SPRITES;
     this.sx = 0;
 
-    this.framesCounter = INITIAL_FRAMES;
+   this.initialFrames = INITIAL_FRAMES;
+   this.framesCounter = this.initialFrames;
+
   }
     
 
@@ -59,7 +63,7 @@ this.engineSprites.src = PATH_ENGINE_SPRITES;
     
     ctx.drawImage(
       this.image,
-      this.position.x,
+      this.position.x ,
       this.position.y,
       this.width,
       this.height
@@ -68,7 +72,7 @@ this.engineSprites.src = PATH_ENGINE_SPRITES;
    
     if (this.engineImageLoaded) {
       ctx.drawImage(
-        this.engineImage,
+        this.engineImage ,
         this.position.x,
         this.position.y + 10, 
         this.width,
@@ -77,11 +81,11 @@ this.engineSprites.src = PATH_ENGINE_SPRITES;
     }
 
    
-    if (this.engineSpritesLoaded) {
+    if (this.engineSpritesLoaded) {    //animation 
       ctx.drawImage(
         this.engineSprites,
-        this.sx, 0,       
-        48, 48,           
+        this.sx, -5,       
+        48,48,           
         this.position.x,
         this.position.y,
         this.width,
@@ -92,14 +96,14 @@ this.engineSprites.src = PATH_ENGINE_SPRITES;
     this.update(); 
   }
 
-  update() {
-   
-    if (this.framesCounter <= 0) {
-      this.sx = this.sx === 96 ? 0 : this.sx + 48; 
-      this.framesCounter = INITIAL_FRAMES;
+   update() { //animation
+    
+    if (this.framesCounter === 0) {
+      this.sx = (this.sx === 96) ? 0 : this.sx + 48; 
+      this.framesCounter = this.initialFrames; 
+    } else {
+      this.framesCounter--; 
     }
-
-    this.framesCounter--;
   }
 
 
