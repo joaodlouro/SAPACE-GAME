@@ -1,8 +1,9 @@
 import { PATH_ENGINE_IMAGE, 
     PATH_ENGINE_SPRITES, PATH_SPACESHIP_IMAGE } 
-from  "../utils/constants.js"; //sempre por extenção do arquivo 
+from  "../utils/constants.js"; 
+import Projectile from "../classes/Projectile.js";
 
-const INITIAL_FRAMES = 6;
+const INITIAL_FRAMES = 15;
 
 class Player{
 
@@ -106,29 +107,19 @@ this.engineSprites.src = PATH_ENGINE_SPRITES;
     }
   }
 
-
-   shoot(projectilesArray) {
-  const p = {
-    position: {
-      x: this.position.x + this.width / 2 - 2,
-      y: this.position.y + 2,
-    },
-    velocity: -10,
-    width: 4,
-    height: 10
-  };
-
-  projectilesArray.push(p); 
-}
-    hit(projectile) {
-    return (
-      projectile.position.x >= this.position.x + 20 &&
-      projectile.position.x <= this.position.x + 20 + this.width - 38 &&
-      projectile.position.y + projectile.height >= this.position.y + 22 &&
-      projectile.position.y + projectile.height <=
-        this.position.y + 22 + this.height - 34
+//shoot
+  shoot(projectiles) {
+    const p = new Projectile ({
+            x: this.position.x + this.width / 2 - 2, //progetil 
+            y: this.position.y +2,
+        },
+        -3
     );
-  }
+    projectiles.push(p); 
 }
+//shoot
+
+
+  }
 
 export default Player;
