@@ -1,5 +1,6 @@
 import Player from "./classes/player.js"; 
 import Projectile from "./classes/Projectile.js"; 
+import Invader from "./classes/invader.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -10,6 +11,7 @@ ctx.imageSmoothingEnabled = false;
 
 const player = new Player(canvas.width, canvas.height); 
 const playerProjectiles = []; 
+const invader = new Invader({ x: 150, y: 100 });
 
 const keys = {
     left: false,
@@ -27,34 +29,28 @@ const drawProjectiles = () => {
     });
 };
 
-const clearProjectiles = () =>{
-    playerProjectiles.forEach((projectile, index) =>{
-        if (projectile.position.y <=0){
+const clearProjectiles = () => {
+    playerProjectiles.forEach((projectile, index) => {
+        if (projectile.position.y <= 0) {
             playerProjectiles.splice(index, 1);
         }
-
-    }
-
-    
-
-    )
-}
-
+    });
+};
 
 const gameLoop = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    invader.draw(ctx);
+
+    drawProjectiles();
+    clearProjectiles();
+
     ctx.save();
-
-    drawProjectiles();  //cria os Projectiles
-    clearProjectiles(); //limpa Projectiles
-   
-
     ctx.translate(
         player.position.x + player.width / 2,
         player.position.y + player.height / 2
     );
 
-if (keys.shoot.pressed && keys.shoot.released) {
+    if (keys.shoot.pressed && keys.shoot.released) {
         player.shoot(playerProjectiles); 
         keys.shoot.released = false; 
         console.log(playerProjectiles);
@@ -75,9 +71,9 @@ if (keys.shoot.pressed && keys.shoot.released) {
         -player.position.y - player.height / 2
     );
 
-
     player.draw(ctx);
     ctx.restore();
+
     requestAnimationFrame(gameLoop);
 };
 
