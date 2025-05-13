@@ -1,125 +1,125 @@
-import { PATH_ENGINE_IMAGE, 
-    PATH_ENGINE_SPRITES, PATH_SPACESHIP_IMAGE } 
-from  "../utils/constants.js"; 
-import Projectile from "../classes/Projectile.js";
+import {
+    INITIAL_FRAMES,
+    PATH_ENGINE_IMAGE,
+    PATH_ENGINE_SPRITES,
+    PATH_SPACESHIP_IMAGE,
+} from "../utils/constants.js";
 
-const INITIAL_FRAMES = 15;
+import Projectile from "./Projectile.js";
 
-class Player{
-
-    constructor(canvaswidth, canvasheight) {
-
-        this.width = 48 *2;
-        this.height = 48 *2;
-        this.velocity = 10;
+class Player {
+    constructor(canvasWidth, canvasHeight, color = null) {
+        this.alive = true;
+        this.width = 40 * 2;
+        this.height = 40 * 2;
+        this.velocity = 6;
+        this.color = color;
 
         this.position = {
-            x: canvaswidth / 2 - this.width / 2,
-            y: canvasheight - this.height - 30,
+            x: canvasWidth / 2 - this.width / 2,
+            y: canvasHeight - this.height - 30,
         };
- // fecha constructor / player
 
+        this.image = this.getImage(PATH_SPACESHIP_IMAGE);
+        this.engineImage = this.getImage(PATH_ENGINE_IMAGE);
+        this.engineSprites = this.getImage(PATH_ENGINE_SPRITES);
 
+        this.sx = 0;
+        this.framesCounter = INITIAL_FRAMES;
 
-  this.image = new Image();
-this.image.src = PATH_SPACESHIP_IMAGE;
+        // time 
+        this.lastShotTime = 0;
+        this.shootCooldown = 300; 
+    }
 
-
-this.engineImage = new Image();
-this.engineImageLoaded = false;
-this.engineImage.onload = () => {
-  this.engineImageLoaded = true;
-
-};
-this.engineImage.src = PATH_ENGINE_IMAGE;
-
-
-this.engineSprites = new Image();
-this.engineSpritesLoaded = false;
-this.engineSprites.onload = () => {
-  this.engineSpritesLoaded = true;
-};
-
-this.engineSprites.src = PATH_ENGINE_SPRITES;
-    this.sx = 0;
-
-   this.initialFrames = INITIAL_FRAMES;
-   this.framesCounter = this.initialFrames;
-
-  }
-    
-
-    moveLeft(){
+    moveLeft() {
         this.position.x -= this.velocity;
     }
 
     moveRight() {
         this.position.x += this.velocity;
-    };
-
-    
-
-
-      draw(ctx) {
-    
-    ctx.drawImage(
-      this.image,
-      this.position.x ,
-      this.position.y,
-      this.width,
-      this.height
-    );
-
-   
-    if (this.engineImageLoaded) {
-      ctx.drawImage(
-        this.engineImage ,
-        this.position.x,
-        this.position.y + 10, 
-        this.width,
-        this.height
-      );
     }
 
-   
-    if (this.engineSpritesLoaded) {    //animation 
-      ctx.drawImage(
-        this.engineSprites,
-        this.sx, -5,       
-        48,48,           
-        this.position.x,
-        this.position.y,
-        this.width,
-        this.height
-      );
+    moveUp() {
+        this.position.y -= this.velocity;
     }
 
-    this.update(); 
-  }
-
-   update() { //animation
-    
-    if (this.framesCounter === 0) {
-      this.sx = (this.sx === 96) ? 0 : this.sx + 48; 
-      this.framesCounter = this.initialFrames; 
-    } else {
-      this.framesCounter--; 
+    moveDown() {
+        this.position.y += this.velocity;
     }
-  }
 
-//shoot
-  shoot(projectiles) {
-    const p = new Projectile ({
-            x: this.position.x + this.width / 2 - 2, //progetil 
-            y: this.position.y +2,
-        },
-        -8, "red"
-    );
-    projectiles.push(p); 
-}
-//shoot
+    getImage(path) {
+        const image = new Image();
+        image.src = path;
+        return image;
+    }
 
-  hit(projectile) {
+    draw(ctx) {
+        if (this.color) {
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+        } else {
+            ctx.drawImage(
+                this.image,
+                this.position.x,
+                this.position.y,
+                this.width,
+                this.height
+            );
+        }
+
+        ctx.drawImage(
+            this.engineSprites,
+            this.sx,
+            0,
+            48,
+            50,
+            this.position.x,
+            this.position.y + 10,
+            this.width,
+            this.height
+        );
+
+        ctx.drawImage(
+            this.engineImage,
+            this.position.x,
+            this.position.y + 8,
+            this.width,
+            this.height
+        );
+
+        this.update();
+    }
+
+    update() {
+        if (this.framesCounter === 0) {
+            this.sx = this.sx === 96 ? 0 : this.sx + 48;
+            this.framesCounter = INITIAL_FRAMES;
+        }
+
+        this.framesCounter--;
+    }
+
+    shoot(projectiles) {
+        const now = Date.now();
+        if (now - this.lastShotTime < this.shootCooldown) {
+            return; //  cooldown
+        }
+
+        this.lastShotTime = now;
+
+        const p = new Projectile(
+            {
+                x: this.position.x + this.width / 2 - 2,
+                y: this.position.y + 2,
+            },
+            -10
+        );
+
+        projectiles.push(p);
+    }
+
+    hit(projectile) {
         return (
             projectile.position.x >= this.position.x + 20 &&
             projectile.position.x <= this.position.x + 20 + this.width - 38 &&
@@ -129,4 +129,5 @@ this.engineSprites.src = PATH_ENGINE_SPRITES;
         );
     }
 }
+
 export default Player;

@@ -1,4 +1,4 @@
-import Invader from "./invader.js";
+import Invader from "./Invader.js";
 
 class Grid {
     constructor(rows, cols) {
@@ -14,15 +14,21 @@ class Grid {
 
     init() {
         const array = [];
-        for (let row = 0; row < this.rows; row++) {
-            for (let col = 0; col < this.cols; col++) {
+
+        for (let row = 0; row < this.rows; row += 1) {
+            for (let col = 0; col < this.cols; col += 1) {
                 const invader = new Invader(
-                    { x: col * 50, y: row * 37 },
+                    {
+                        x: col * 50 + 20,
+                        y: row * 37 + 120,
+                    },
                     this.invadersVelocity
                 );
+
                 array.push(invader);
             }
         }
+
         return array;
     }
 
@@ -39,9 +45,7 @@ class Grid {
             this.moveDown = true;
         }
 
-        if (!playerStatus) {
-            this.moveDown = false;
-        }
+        if (!playerStatus) this.moveDown = false;
 
         this.invaders.forEach((invader) => {
             if (this.moveDown) {
@@ -63,12 +67,12 @@ class Grid {
         );
     }
 
-    reachedLeftBoundary() {    // tiro invader
+    reachedLeftBoundary() {
         return this.invaders.some((invader) => invader.position.x <= 0);
     }
 
-    getRandomInvader() {  
-        const index = Math.floor(Math.random() * this.invaders.length); //multi pelo tamanho da lista 
+    getRandomInvader() {
+        const index = Math.floor(Math.random() * this.invaders.length);
         return this.invaders[index];
     }
 

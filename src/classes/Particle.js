@@ -1,25 +1,27 @@
 class Particle {
-    constructor(position, velocity, radius, color) {
+    constructor(position, velocity, radius) {
         this.position = position;
         this.velocity = velocity;
         this.radius = radius;
-        this.color = color;
+        this.color = this.generateRandomColor(); 
         this.opacity = 1;
     }
 
+   
+    generateRandomColor() {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
     draw(ctx) {
+        ctx.save();
         ctx.beginPath();
-        ctx.arc(
-            this.position.x,
-            this.position.y,
-            this.radius,
-            0,
-            Math.PI * 2
-        );
+        ctx.globalAlpha = this.opacity;
+        ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 5);
         ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.opacity; 
         ctx.fill();
-        ctx.globalAlpha = 1; 
         ctx.closePath();
         ctx.restore();
     }
@@ -27,7 +29,9 @@ class Particle {
     update() {
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
-        this.opacity = this.opacity - 0.0009 <= 0 ? 0  :  this.opacity -  0.0009 ;
+
+        
+        this.opacity = this.opacity - 0.0010 <= 0 ? 0 : this.opacity - 0.0010;
     }
 }
 
