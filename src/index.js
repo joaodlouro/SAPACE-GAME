@@ -67,8 +67,8 @@ const initObstacles = () => {
 //initObstacles();
 
 const grid = new Grid(
-    Math.round(Math.random() * 9 + 1),
-    Math.round(Math.random() * 9 + 1)
+    Math.round(Math.random() * 10 + 1),
+    Math.round(Math.random() * 10 + 2)
 );
 
 const keys = {
