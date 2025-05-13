@@ -11,7 +11,7 @@ class Player{
 
         this.width = 48 *2;
         this.height = 48 *2;
-        this.velocity = 8;
+        this.velocity = 10;
 
         this.position = {
             x: canvaswidth / 2 - this.width / 2,
@@ -113,13 +113,20 @@ this.engineSprites.src = PATH_ENGINE_SPRITES;
             x: this.position.x + this.width / 2 - 2, //progetil 
             y: this.position.y +2,
         },
-        -3
+        -8, "red"
     );
     projectiles.push(p); 
 }
 //shoot
 
-
-  }
-
+  hit(projectile) {
+        return (
+            projectile.position.x >= this.position.x + 20 &&
+            projectile.position.x <= this.position.x + 20 + this.width - 38 &&
+            projectile.position.y + projectile.height >= this.position.y + 22 &&
+            projectile.position.y + projectile.height <=
+                this.position.y + 22 + this.height - 34
+        );
+    }
+}
 export default Player;

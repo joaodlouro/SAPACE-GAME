@@ -1,13 +1,12 @@
-import { PATH_INVADER_IMAGE } from "../utils/constants.js"
-import Projectile from "../classes/Projectile.js";
+import { PATH_INVADER_IMAGE } from "../utils/constants.js";
+import Projectile from "./Projectile.js";
 
 class Invader {
-
     constructor(position, velocity) {
         this.position = position;
-        this.scale = 0.8;
-        this.width = 50 * this.scale;
-        this.height = 37 * this.scale;
+        this.scale = 1;
+        this.width = 45 * this.scale;
+        this.height = 50 * this.scale;
         this.velocity = velocity;
 
         this.image = this.getImage(PATH_INVADER_IMAGE);
@@ -46,12 +45,16 @@ class Invader {
     }
 
     shoot(projectiles) {
+        
         const p = new Projectile(
             {
-                x: this.position.x + this.width / 2 - 2,
+                
+                x: this.position.x +
+                 this.width / 2 - 2,
                 y: this.position.y + this.height,
             },
-            10
+            10, "rgb(41, 235, 41)"
+            
         );
         projectiles.push(p);
     }
