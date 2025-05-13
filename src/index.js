@@ -9,6 +9,7 @@ import { GameState, NUMBER_STARS } from "./utils/constants.js";
 const soundEffects = new SoundEffects();
 
 
+
 const startScreen = document.querySelector(".start-screen");
 const gameOverScreen = document.querySelector(".game-over");
 const scoreUi = document.querySelector(".score-ui");
@@ -63,7 +64,7 @@ const initObstacles = () => {
     obstacles.push(obstacle2);
 };
 
-initObstacles();
+//initObstacles();
 
 const grid = new Grid(
     Math.round(Math.random() * 9 + 1),
@@ -122,9 +123,9 @@ const drawParticles = () => {
     });
 };
 
-const drawObstacles = () => {
-    obstacles.forEach((obstacle) => obstacle.draw(ctx));
-};
+// const drawObstacles = () => {
+//     obstacles.forEach((obstacle) => obstacle.draw(ctx));
+// };
 
 const clearProjectiles = () => {
     playerProjectiles.forEach((projectile, i) => {
@@ -178,7 +179,7 @@ const checkShootInvaders = () => {
                         x: invader.position.x + invader.width / 2,
                         y: invader.position.y + invader.height / 2,
                     },
-                    10,
+                    20,
                     
                 );
 
@@ -204,7 +205,8 @@ const gameOver = () => {
             x: player.position.x + player.width / 2,
             y: player.position.y + player.height / 2,
         },
-        10,
+        5
+        
         
     );
 
@@ -213,7 +215,8 @@ const gameOver = () => {
             x: player.position.x + player.width / 2,
             y: player.position.y + player.height / 2,
         },
-        5,
+        5
+        
         
     );
 
@@ -222,7 +225,7 @@ const gameOver = () => {
             x: player.position.x + player.width / 2,
             y: player.position.y + player.height / 2,
         },
-        5,
+        5
        
     );
 
@@ -286,15 +289,15 @@ const spawnGrid = () => {
     if (grid.invaders.length === 0) {
         soundEffects.playNextLevelSound();
 
-        grid.rows = Math.round(Math.random() * 10 + 2);
-        grid.cols = Math.round(Math.random() * 10 + 2);
+        grid.rows = Math.round(Math.random() * 8 + 2);
+        grid.cols = Math.round(Math.random() * 8 + 2);
         grid.restart();
 
         incrementLevel();
 
-        if (obstacles.length === 0) {
-            initObstacles();
-        }
+        //if (obstacles.length === 0) {
+            //initObstacles();
+        //}
     }
 };
 
@@ -302,8 +305,6 @@ const gameLoop = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawStars();
-    
-   
 
     if (currentState === GameState.PLAYING) {
         showGameData();
@@ -316,26 +317,22 @@ const gameLoop = () => {
 
         checkShootInvaders();
         checkShootPlayer();
-    // ckInvadersCollidedObstacles();
         checkPlayerCollidedInvaders();
-        //eckShootObstacles();
 
         grid.draw(ctx);
         grid.update(player.alive);
 
         ctx.save();
-
         ctx.translate(
             player.position.x + player.width / 2,
             player.position.y + player.height / 2
         );
 
-        
-        if (keys.forward && player.position.y > 0) {  // Move para cima (frente)
+        if (keys.forward && player.position.y > 0) {
             player.moveUp();
         }
 
-        if (keys.down && player.position.y < canvas.height - player.height) {  // Move para baixo
+        if (keys.down && player.position.y < canvas.height - player.height) {
             player.moveDown();
         }
 
@@ -356,12 +353,20 @@ const gameLoop = () => {
 
         player.draw(ctx);
         ctx.restore();
-    }
 
-    if (keys.shoot.pressed) {
-            player.shoot(playerProjectiles);  // Dispara o projétil
-            keys.shoot.pressed = false;  // Impede múltiplos disparos
+
+        if (keys.shoot.pressed) {
+            const prevCount = playerProjectiles.length; 
+            player.shoot(playerProjectiles);  
+
+          // se for disparado som
+            if (playerProjectiles.length > prevCount) {
+                soundEffects.playShootSound();
+            }
+
+            keys.shoot.pressed = false; // Impede múltiplos disparos
         }
+    }
 
     if (currentState === GameState.GAME_OVER) {
         checkShootObstacles();
@@ -394,28 +399,30 @@ const restartGame = () => {
 
 addEventListener("keydown", (event) => {
     const key = event.key.toLowerCase();
-   
+
     if (key === "a") keys.left = true;
     if (key === "d") keys.right = true;
-   if (key === "w") keys.forward = true;
-     if (key === "s") keys.down = true;
-    
-    if (key === "enter") keys.shoot.pressed = true;
-   
+    if (key === "w") keys.forward = true;
+    if (key === "s") keys.down = true;
+
+    if (key === "enter" || event.code === "Space") {
+        keys.shoot.pressed = true;
     }
-);
+});
 
 addEventListener("keyup", (event) => {
     const key = event.key.toLowerCase();
-    
+
     if (key === "a") keys.left = false;
     if (key === "d") keys.right = false;
-     if (key === "w") keys.forward = false; 
-     if (key === "s") keys.down = false;     
-    if (key === "enter") {
-          
+    if (key === "w") keys.forward = false;
+    if (key === "s") keys.down = false;
+
+    if (key === "enter" || event.code === "Space") {
+        keys.shoot.pressed = false;
     }
 });
+
 
 buttonPlay.addEventListener("click", () => {
     startScreen.remove();

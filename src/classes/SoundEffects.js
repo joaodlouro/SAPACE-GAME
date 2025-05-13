@@ -29,20 +29,19 @@ class SoundEffects {
         this.adjustVolumes();
     }
 
-    // Método para tocar a música de fundo
+    
     playBackgroundMusic() {
         if (this.backgroundMusic.paused) {
             this.backgroundMusic.play(); // Toca a música de fundo
         }
     }
 
-    playShootSound() {
+     playShootSound() {
         this.shootSounds[this.currentShootSound].currentTime = 0;
         this.shootSounds[this.currentShootSound].play();
         this.currentShootSound =
             (this.currentShootSound + 1) % this.shootSounds.length;
     }
-
     playHitSound() {
         this.hitSounds[this.currentHitSound].currentTime = 0;
         this.hitSounds[this.currentHitSound].play();

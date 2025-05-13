@@ -64,19 +64,19 @@ class Invader {
             projectile.position.y <= this.position.y + this.height
         );
     }
-a
-    collided(obstacle) {
-        return (
-            (obstacle.position.x >= this.position.x &&
-                obstacle.position.x <= this.position.x + this.width &&
-                obstacle.position.y >= this.position.y &&
-                obstacle.position.y <= this.position.y + this.height) ||
-            (obstacle.position.x + obstacle.width >= this.position.x &&
-                obstacle.position.x <= this.position.x &&
-                obstacle.position.y >= this.position.y &&
-                obstacle.position.y <= this.position.y + this.height)
-        );
-    }
+
+    // collided(obstacle) {
+    //     return (
+    //         (obstacle.position.x >= this.position.x &&
+    //             obstacle.position.x <= this.position.x + this.width &&
+    //             obstacle.position.y >= this.position.y &&
+    //             obstacle.position.y <= this.position.y + this.height) ||
+    //         (obstacle.position.x + obstacle.width >= this.position.x &&
+    //             obstacle.position.x <= this.position.x &&
+    //             obstacle.position.y >= this.position.y &&
+    //             obstacle.position.y <= this.position.y + this.height)
+    //     );
+    // }
 }
 
 export default Invader;

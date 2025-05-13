@@ -1,4 +1,4 @@
-import Invader from "./Invader.js";
+import Invader from "./invader.js";
 
 class Grid {
     constructor(rows, cols) {
